@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/two-factor/two-factor#readme",
   "dependencies": {
+    "mongoose": "^5.6.3",
     "twilio": "^3.33.0"
   },
   "devDependencies": {
