@@ -4,7 +4,7 @@ const twilio = require('twilio');
 // it searches through users object to find sid and phone number
 // then uses twilio api to send text message
 // returns a promise
-const send = (username) => {
+function send(username) {
   const client = twilio(this.AccSID, this.AuthToken);
 
   if (!this.users[username]) throw new Error('Username Error: This username has not been created yet.');
@@ -22,6 +22,8 @@ const send = (username) => {
       to: phone,
       channel: 'sms',
     });
-};
+
+  console.log(this.users);
+}
 
 module.exports = send;
