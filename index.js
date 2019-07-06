@@ -3,7 +3,7 @@ const send = require('./functions/send.js')
 const verify = require('./functions/verify.js')
 
 const connect = (AccSID, AuthToken) => {
-  return new Client(AccSid, AuthToken)
+  return new Client(AccSID, AuthToken)
 }
 
 
@@ -12,11 +12,10 @@ class Client {
     this.AccSID = AccSID;
     this.AuthToken = AuthToken;
     this.users = {};
-  }
+    this.create = create;
+    this.send = send;
+    this.verify = verify;
+  };
+};
 
-  create,
-  send,
-  verify
-}
-
-module.exports = connect
+module.exports = connect;
