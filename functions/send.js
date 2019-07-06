@@ -3,6 +3,7 @@ const twilio = require('twilio');
 // send takes in a username
 // it searches through users object to find sid and phone number
 // then uses twilio api to send text message
+// returns a promise
 const send = (username) => {
   const client = twilio(this.AccSID, this.AuthToken);
 
