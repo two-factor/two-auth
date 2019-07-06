@@ -7,9 +7,9 @@ class FakeClient {
       this.client = {
           verify: {
               services: () => ({
-                vericationChecks: {
+                verificationChecks: {
                     create: ({to, code}) => {
-                        new Promise((resolve,reject) => {
+                        return new Promise((resolve,reject) => {
                             if(!isError) resolve({status: 'approved'})
                             else reject({status: false })
                         })
@@ -23,13 +23,11 @@ class FakeClient {
   }
 }
 
-
     it('throws an error if this.users is empty', () => {
         const fakeClient = new FakeClient(false)
         // FakeClient.users = {}
         return expect((fakeClient.verify('ian'))).rejects.toBeInstanceOf(Error)
     })
-
 
     it('throws an error if sid of the user not found', () => {
         const fakeClient = new FakeClient(false)
@@ -38,13 +36,16 @@ class FakeClient {
         return expect((fakeClient.verify('Zep'))).rejects.toBeInstanceOf(Error)
     })
 
-
-    it('throws an error if sid of the user not found', () => {
+    it('throws an error if phone of the user not found', () => {
         const fakeClient = new FakeClient(false)
         fakeClient.users['Zep'].phone = null
         // FakeClient.users = {}
         return expect((fakeClient.verify('Zep'))).rejects.toBeInstanceOf(Error)
     })
+
+    it('status approved if the code matches', () => {
+        const fakeClient = new FakeClient(false)
+        
+        return expect((fakeClient.verify('Zep'))).resolves.toBeTruthy()
+    })
 })
-
-

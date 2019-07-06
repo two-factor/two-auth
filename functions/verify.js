@@ -18,6 +18,7 @@ function verify(username, code) {
       reject(
         new Error("Phone Number Error: No phone number exists for this user.")
       );
+      console.log(this.client.verify.services(sid))
 
     return this.client.verify
       .services(sid)
