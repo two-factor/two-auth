@@ -18,8 +18,6 @@ function send(username) {
       to: phone,
       channel: 'sms',
     });
-
-  console.log(this.users);
 }
 
 module.exports = send;
