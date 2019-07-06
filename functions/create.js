@@ -25,7 +25,7 @@ function create(userID, phone) {
         };
         resolve(users[userID]);
       })
-      .catch(err => reject(err));
+      .catch(err => reject(new Error(String(err))));
   });
 }
 
