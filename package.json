@@ -19,5 +19,8 @@
   "homepage": "https://github.com/two-factor/two-factor#readme",
   "dependencies": {
     "twilio": "^3.33.0"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0"
   }
 }
