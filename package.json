@@ -4,7 +4,10 @@
   "description": "This is the two factor twilio library.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "export NODE_ENV=development",
+    "build": "webpack --mode production",
+    "dev": "webpack-dev-server --mode-development --open"
   },
   "repository": {
     "type": "git",
@@ -18,6 +21,15 @@
   },
   "homepage": "https://github.com/two-factor/two-factor#readme",
   "dependencies": {
-    "twilio": "^3.33.0"
+    "@babel/core": "^7.5.0",
+    "@babel/preset-env": "^7.5.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "twilio": "^3.33.0",
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
   }
 }
