@@ -1,7 +1,5 @@
-const twilio = require('twilio')
+const twilio = require("twilio");
 
-const verify = (username,code) => {
-
-}
+function verify(username, code) {}
 
 module.exports = verify;
