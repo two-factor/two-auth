@@ -1,5 +1,3 @@
-const twilio = require('twilio');
-
 // send takes in a username
 // it searches through users object to find sid and phone number
 // then uses twilio api to send text message
