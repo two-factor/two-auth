@@ -3,21 +3,33 @@
 // then uses twilio api to send text message
 // returns a promise
 function send(username) {
-  if (!this.users[username]) throw new Error('Username Error: This username has not been created yet.');
+  const users = this.users;
+  const client = this.client;
+  return new Promise((resolve, reject) => {
+    if (!users[username])
+      reject(
+        new Error("Username Error: This username has not been created yet.")
+      );
 
-  const { sid, phone } = this.users[username];
+    const { sid, phone } = users[username];
 
-  if (!sid) throw new Error('SID Error: No SID exists for this user.');
-  if (!phone) throw new Error('Phone Number Error: No phone number exists for this user.');
+    if (!sid) reject(new Error("SID Error: No SID exists for this user."));
+    if (!phone)
+      reject(
+        new Error("Phone Number Error: No phone number exists for this user.")
+      );
 
-  return this.client
-    .verify
-    .services(sid)
-    .verifications
-    .create({
-      to: phone,
-      channel: 'sms',
-    });
+    client.verify
+      .services(sid)
+      .verifications.create({
+        to: phone,
+        channel: "sms"
+      })
+      .then(verification => {
+        resolve(verification);
+      })
+      .catch(err => reject(err));
+  });
 }
 
 module.exports = send;
