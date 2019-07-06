@@ -11,6 +11,7 @@ class Client {
   constructor(AccSID, AuthToken) {
     this.AccSID = AccSID;
     this.AuthToken = AuthToken;
+    this.users = {};
   }
 
   create,
