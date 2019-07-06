@@ -5,8 +5,6 @@ const twilio = require('twilio');
 // then uses twilio api to send text message
 // returns a promise
 function send(username) {
-  const client = twilio(this.AccSID, this.AuthToken);
-
   if (!this.users[username]) throw new Error('Username Error: This username has not been created yet.');
 
   const { sid, phone } = this.users[username];
@@ -14,7 +12,7 @@ function send(username) {
   if (!sid) throw new Error('SID Error: No SID exists for this user.');
   if (!phone) throw new Error('Phone Number Error: No phone number exists for this user.');
 
-  return client
+  return this.client
     .verify
     .services(sid)
     .verifications
