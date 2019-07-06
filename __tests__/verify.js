@@ -29,6 +29,22 @@ class FakeClient {
         // FakeClient.users = {}
         return expect((fakeClient.verify('ian'))).rejects.toBeInstanceOf(Error)
     })
+
+
+    it('throws an error if sid of the user not found', () => {
+        const fakeClient = new FakeClient(false)
+        fakeClient.users['Zep'].sid = null
+        // FakeClient.users = {}
+        return expect((fakeClient.verify('Zep'))).rejects.toBeInstanceOf(Error)
+    })
+
+
+    it('throws an error if sid of the user not found', () => {
+        const fakeClient = new FakeClient(false)
+        fakeClient.users['Zep'].phone = null
+        // FakeClient.users = {}
+        return expect((fakeClient.verify('Zep'))).rejects.toBeInstanceOf(Error)
+    })
 })
 
 
