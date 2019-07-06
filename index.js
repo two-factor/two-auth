@@ -18,9 +18,6 @@ class Client {
     this.send = send;
     this.verify = verify;
   }
-  create(userID, phone) {
-    create(userID, phone);
-  }
 }
 
 module.exports = connect;
