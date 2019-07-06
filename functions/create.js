@@ -11,6 +11,9 @@ function create(userID, phone) {
     if (typeof phone !== "string") {
       reject(new Error("typeof phone must be string"));
     }
+    if (phone.substring(0, 2) !== "+1") {
+      reject(new Error("phone must be string formatted as such: +1XXXXXXXXXX"));
+    }
     client.verify.services
       .create({ friendlyName: `Service for ${userID}` })
       .then(service => {
