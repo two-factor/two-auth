@@ -1,6 +1,6 @@
 {
   "name": "two-auth",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This is the two factor twilio library.",
   "main": "index.js",
   "scripts": {
