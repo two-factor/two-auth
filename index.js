@@ -31,7 +31,7 @@ class Client {
         .catch(err => {
           throw new Error("Two Factor Unable to connect to Mongo");
         });
-      this.TwoFactorUser = mongoose.model("TwoFactorUser", userSchema);
+      this.TwoAuthUser = mongoose.model("two-auth-user", userSchema);
       this.create = mongooseCreate;
       this.send = mongooseSend;
       this.verify = mongooseVerify;

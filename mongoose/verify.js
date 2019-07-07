@@ -6,9 +6,9 @@
 // status is true if verification succeeded, false if verification failed
 
 function verify(userID, code) {
-  const TwoFactorUser = this.TwoFactorUser;
+  const TwoAuthUser = this.TwoAuthUser;
   return new Promise((resolve, reject) => {
-    TwoFactorUser.findOne({ userID })
+    TwoAuthUser.findOne({ userID })
       .then(user => {
         const { sid, phone } = user;
         if (!sid) reject(new Error("SID Error: No SID exists for this user."));
