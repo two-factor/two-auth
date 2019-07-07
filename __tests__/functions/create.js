@@ -1,4 +1,4 @@
-const create = require("../functions/create");
+const create = require("../../functions/create");
 describe("tests the create function", () => {
   class FakeClient {
     constructor(isError) {
