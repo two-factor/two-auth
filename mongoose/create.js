@@ -6,7 +6,7 @@
 function create(userID, phone) {
   const client = this.client;
   const users = this.users;
-  const TwoFactorUser = this.TwoFactorUser;
+  const TwoAuthUser = this.TwoAuthUser;
 
   return new Promise((resolve, reject) => {
     if (typeof phone !== "string") {
@@ -19,7 +19,7 @@ function create(userID, phone) {
       .create({ friendlyName: `Service for ${userID}` })
       .then(service => {
         const { sid } = service;
-        TwoFactorUser.create({
+        TwoAuthUser.create({
           userID,
           sid,
           phone

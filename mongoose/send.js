@@ -5,9 +5,9 @@
 function send(userID) {
   const users = this.users;
   const client = this.client;
-  const TwoFactorUser = this.TwoFactorUser;
+  const TwoAuthUser = this.TwoAuthUser;
   return new Promise((resolve, reject) => {
-    TwoFactorUser.findOne({ userID: userID })
+    TwoAuthUser.findOne({ userID: userID })
       .then(user => {
         const { sid, phone } = user;
         if (!sid) reject(new Error("SID Error: No SID exists for this user."));
