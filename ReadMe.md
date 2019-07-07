@@ -18,6 +18,8 @@ In your application's backend, likely in an Express middleware controller (or wh
 
     const twoFactor = require('two-factor');
     const client = twoFactor(*ACC_SID*, *AUTH_TOKEN*);
+    
+> Optionally: you may pass a third parameter Mongo database connection URI so that your Twilio SID, your application's Twilio registered user IDs, their phone numbers are persistent inside your Mongo database. Initialize like so: `twoFactor(*ACC_SID*, *AUTH_TOKEN*, *MONGO_DB_URI*)`. Two-factor stores your SID, registered user IDs and phone numbers inside a collection on your passed in Mongo database under the name `two factor users`
 
 The function will return an instance of a Two-Factor `client`. That `client` will have the `create`, `send`, and `verify` methods.
 
