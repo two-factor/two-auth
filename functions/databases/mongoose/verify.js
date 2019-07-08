@@ -19,8 +19,7 @@ function verify(userID, code) {
             )
           );
 
-        return this.client.verify
-          .services(sid)
+        return this.client.verify.services(sid)
           .verificationChecks.create({
             to: phone,
             code
