@@ -1,14 +1,82 @@
-// const client = require("../../../../index")(process.env.SID, process.env.AUTH, {
-//   isPostgres: true,
-//   connectionURI: "postgres://student:ilovetesting@localhost/twoauthtests"
-// });
+const send = require("../../../../functions/databases/postgres/send");
 
-// // client.create("ian", "+17604207520");
+describe("tests the pg send function", () => {
+  const mockSave = jest.fn(function(x) {
+    return x;
+  });
 
-// client
-//   .send("ian")
-//   .then(res => console.log(res))
-//   .catch(err => console.log(err));
-// // describe("Tests for Postgres Send", () => {
+  beforeAll(() => {
+    mockSave.mockClear();
+  });
+  class FakeClient {
+    constructor(sidExists = true) {
+      this.pgConnect = function() {
+        return new Promise((resolve, reject) => {
+          resolve({
+            database: {
+              query: function(query, values, callback) {
+                mockSave();
+                if (sidExists) {
+                  callback(null, {
+                    rows: [
+                      {
+                        sid: "fakesid",
+                        phone: "1234"
+                      }
+                    ]
+                  });
+                } else {
+                  callback(null, {
+                    rows: [
+                      {
+                        sid: null,
+                        phone: "1234"
+                      }
+                    ]
+                  });
+                }
+              }
+            },
+            done: function() {
+              return null;
+            }
+          });
+        });
+      };
+      this.client = {
+        verify: {
+          services: function(sid) {
+            return {
+              verifications: {
+                create: function({ to, phone }) {
+                  return new Promise((resolve, reject) => {
+                    resolve("fakeverification");
+                  });
+                }
+              }
+            };
+          }
+        }
+      };
+      this.send = send;
+    }
+  }
 
-// // });
+  it("successfully saves to a database", async () => {
+    const client = new FakeClient();
+    const result = await client.send();
+    expect(mockSave.mock.calls.length).toBe(1);
+  });
+
+  it("rejects with an error if no sid exists", async () => {
+    const client = new FakeClient(false);
+    const result = client.send();
+    expect(result).rejects.toBeInstanceOf(Error);
+  });
+
+  it("successfully resolves a verification from twilio", async () => {
+    const client = new FakeClient();
+    const result = await client.send();
+    expect(result).toBe("fakeverification");
+  });
+});
