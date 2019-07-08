@@ -83,14 +83,14 @@ class Client {
               database
                 .query(createTable)
                 .then(res => {
-                  resolve(database, done);
+                  resolve({ database, done });
                   tableCreated = true;
                 })
                 .catch(e =>
                   reject(new Error("Error connecting to Postgres Pool."))
                 );
             } else {
-              resolve(database, done);
+              resolve({ database, done });
             }
           });
         });
