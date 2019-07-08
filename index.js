@@ -6,17 +6,17 @@ const send = require("./functions/send.js");
 const verify = require("./functions/verify.js");
 
 // import mongoose functions
-const mongooseCreate = require("./mongoose/create");
-const mongooseSend = require("./mongoose/send");
-const mongooseVerify = require("./mongoose/verify");
-const userSchema = require("./mongoose/userSchema");
+const mongooseCreate = require("./functions/databases/mongoose/create");
+const mongooseSend = require("./functions/databases/mongoose/send");
+const mongooseVerify = require("./functions/databases/mongoose/verify");
+const userSchema = require("./functions/databases/mongoose/userSchema");
 
 //import postgres functions
-const generatePool = require("./postgres/configure");
-const createTable = require("./postgres/createtable");
-const postgresCreate = require("./postgres/create");
-const postgresSend = require("./postgres/send");
-const postgresVerify = require("./postgres/verify");
+const generatePool = require("./functions/databases/postgres/configure");
+const createTable = require("./functions/databases/postgres/createtable");
+const postgresCreate = require("./functions/databases/postgres/create");
+const postgresSend = require("./functions/databases/postgres/send");
+const postgresVerify = require("./functions/databases/postgres/verify");
 
 const connect = (AccSID, AuthToken, mongoURI = null) => {
   return new Client(AccSID, AuthToken, mongoURI);
