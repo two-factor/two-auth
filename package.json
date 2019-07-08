@@ -29,6 +29,8 @@
   "homepage": "https://github.com/two-factor/two-factor#readme",
   "dependencies": {
     "mongoose": "^5.6.3",
+    "pg": "^7.11.0",
+    "pg-connection-string": "^2.1.0",
     "twilio": "^3.33.0"
   },
   "devDependencies": {
