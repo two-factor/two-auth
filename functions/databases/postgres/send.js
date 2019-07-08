@@ -1,15 +1,42 @@
-module.exports = function(userID, phone) {
+module.exports = function(userID) {
+  const { pgConnect, client } = this;
   return new Promise((resolve, reject) => {
-    this.pgConnect()
+    pgConnect()
       .then(({ database, done }) => {
-        // pgClient.query... blah blah logic
-        //invoke done before your resolve this promise
-        done();
+        const query = "SELECT * FROM twoauthusers WHERE userID=$1";
+        const values = [String(userID)];
+        database.query(query, values, (err, res) => {
+          if (err) reject(err);
+          const { sid, phone } = res.rows[0];
+          if (!sid)
+            reject(new Error("SID Error: No SID exists for this user."));
+          if (!phone)
+            reject(
+              new Error(
+                "Phone Number Error: No phone number exists for this user."
+              )
+            );
+          //invoke done before your resolve this promise
+          client.verify
+            .services(sid)
+            .verifications.create({
+              to: phone,
+              channel: "sms"
+            })
+            .then(verification => {
+              done();
+              resolve(verification);
+            })
+            .catch(err => {
+              done();
+              reject(err);
+            });
+        });
       })
-      .catch((err, done) => {
-        //invoke done before you reject
+      .catch(err => {
         done();
         reject(err);
+        //"userID Error: This userID has not been created yet."
       });
   });
 };
