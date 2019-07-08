@@ -13,3 +13,26 @@
 // // describe("Tests for Postgres Send", () => {
 
 // // });
+
+describe('tests the pg create method', () => {
+  class FakeClient {
+    constructor() {
+      this.pgConnect = function () {
+        return new Promise((resolve, reject) => {
+          resolve({
+            query: (query, values) => new Promise((resolve, reject) => {
+              resolve('fakeUser');
+            }),
+          });
+        });
+      };
+    }
+    this.client = {
+      verify: {
+        services: {
+          create: ({})
+        }
+      }
+    }
+  }
+});
