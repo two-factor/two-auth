@@ -71,6 +71,7 @@ class Client {
       // connect the database and assign a reference to it to our client object
       const pgPool = generatePool(options.connectionURI);
       let tableCreated = false;
+      console.log(pgPool);
       this.pgConnect = function() {
         return new Promise((resolve, reject) => {
           // connection using created pool
