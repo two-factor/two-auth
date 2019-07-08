@@ -41,7 +41,6 @@ module.exports = function(userID) {
         });
       })
       .catch(err => {
-        console.log(err);
         reject(err);
         //"userID Error: This userID has not been created yet."
       });
