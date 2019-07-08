@@ -7,9 +7,11 @@ module.exports = function (userID, phone) {
     this.pgConnect()
       .then(({ database, done }) => {
         if (typeof phone !== 'string') {
+          done();
           reject(new Error('typeof phone must be string'));
         }
         if (phone.substring(0, 2) !== '+1') {
+          done();
           reject(new Error('phone must be string formatted as such: +1XXXXXXXXXX'));
         }
         client.verify.services
