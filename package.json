@@ -1,6 +1,6 @@
 {
-  "name": "two-factor",
-  "version": "1.0.0",
+  "name": "two-auth",
+  "version": "1.0.2",
   "description": "This is the two factor twilio library.",
   "main": "index.js",
   "scripts": {
@@ -10,15 +10,27 @@
     "type": "git",
     "url": "git+https://github.com/two-factor/two-factor.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "2fa",
+    "two-factor",
+    "two",
+    "two-factor-authentication",
+    "factor",
+    "authentication",
+    "twilio",
+    "two-factor",
+    "two factor authentication"
+  ],
+  "author": "Ryan Dang, Daniel Nagano-Gerace, Sierra Swaby, Giuseppe Valentino, Ian Geckeler",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/two-factor/two-factor/issues"
   },
   "homepage": "https://github.com/two-factor/two-factor#readme",
   "dependencies": {
     "mongoose": "^5.6.3",
+    "pg": "^7.11.0",
+    "pg-connection-string": "^2.1.0",
     "twilio": "^3.33.0"
   },
   "devDependencies": {
