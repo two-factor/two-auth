@@ -1,38 +1,39 @@
-// const client = require('../../../../index')(process.env.SID, process.env.AUTH, {
-//   isPostgres: true,
-//   appName: 'testApp',
-//   connectionURI: 'postgres://postgres:yellowjacket@localhost/twoauthtest',
-// });
-
-// // client.create("ian", "+17604207520");
-
-// client
-//   .create('ian', '+12016750593')
-//   .then(res => console.log(res))
-//   .catch(err => console.log(err));
-// // describe("Tests for Postgres Send", () => {
-
-// // });
-
+const create = require("../../../../functions/databases/postgres/create");
 describe('tests the pg create method', () => {
   class FakeClient {
-    constructor() {
+    constructor(isError) {
+      this.users = {};
+      this.isError = isError;
       this.pgConnect = function () {
         return new Promise((resolve, reject) => {
           resolve({
-            query: (query, values) => new Promise((resolve, reject) => {
-              resolve('fakeUser');
-            }),
+            database: {
+              query: (query, values) => new Promise((resolve, reject) => {
+                resolve('fakeUser');
+              }),
+            },
+            done: () => null,
           });
         });
       };
-    }
-    this.client = {
-      verify: {
-        services: {
-          create: ({})
-        }
-      }
+      this.client = {
+        verify: {
+          services: {
+            create: () => new Promise((resolve, reject) => {
+              resolve({ sid: 'testSID' });
+            }),
+          },
+        },
+      };
+      this.create = create;
     }
   }
+  
+  it("generates a postgres row with the correct sid", () => {
+    const fakeClient = new FakeClient(false);
+    let database = fakeClient.pgConnect();
+    return fakeClient.create('fakeUser', '+11231231234').then((user) => {
+      expect(user).toEqual('fakeUser');
+    })
+  })
 });
