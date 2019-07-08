@@ -48,6 +48,7 @@ class Client {
     if (!options.hasOwnProperty("appName")) {
       options.appName = "";
     }
+    this.appName = options.appName;
     this.AccSID = AccSID;
     this.AuthToken = AuthToken;
     this.client = twilio(this.AccSID, this.AuthToken);

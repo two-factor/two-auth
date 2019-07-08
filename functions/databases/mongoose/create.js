@@ -4,30 +4,28 @@
 // returns a reference to that object
 // if rejected, throws error from verify API
 function create(userID, phone) {
-  const client = this.client;
-  const users = this.users;
-  const TwoAuthUser = this.TwoAuthUser;
+  const { client, TwoAuthUser, appName } = this;
 
   return new Promise((resolve, reject) => {
-    if (typeof phone !== "string") {
-      reject(new Error("typeof phone must be string"));
+    if (typeof phone !== 'string') {
+      reject(new Error('typeof phone must be string'));
     }
-    if (phone.substring(0, 2) !== "+1") {
-      reject(new Error("phone must be string formatted as such: +1XXXXXXXXXX"));
+    if (phone.substring(0, 2) !== '+1') {
+      reject(new Error('phone must be string formatted as such: +1XXXXXXXXXX'));
     }
     client.verify.services
-      .create({ friendlyName: `Service for ${userID}` })
-      .then(service => {
+      .create({ friendlyName: `${appName}` })
+      .then((service) => {
         const { sid } = service;
         TwoAuthUser.create({
           userID,
           sid,
-          phone
+          phone,
         })
-          .then(user => {
+          .then((user) => {
             resolve(user);
           })
-          .catch(err => {
+          .catch((err) => {
             reject(err);
           });
       })
