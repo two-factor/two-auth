@@ -19,11 +19,29 @@ In your application's backend, likely in an Express middleware controller (or wh
     const twoAuth = require('two-auth');
     const client = twoAuth(*ACC_SID*, *AUTH_TOKEN*);
 
-> Optionally: you may pass a third parameter Mongo database connection URI so that your Twilio SID, your application's Twilio registered user IDs, their phone numbers are persistent inside your Mongo database. Initialize like so: `twoAuth(*ACC_SID*, *AUTH_TOKEN*, *MONGO_DB_URI*)`. `twoAuth` stores your SID, registered user IDs and phone numbers inside a collection on your passed in Mongo database under the name `two auth users`
+> Optionally: you may pass a third parameter `options` object with the following syntax:
 
-The function will return an instance of a Two-Auth `client`. That `client` will have the `create`, `send`, and `verify` methods.
+    const twoAuth = require('two-auth');
+    const options = { 
+	    appName: "*YOUR_APP_NAME*",
+	    isPostgres: boolean,
+	    connectionURI: "*MONGO_URI or POSTGRES_URI*",
+    }
+    const client = twoAuth(*ACC_SID*, *AUTH_TOKEN*, options);
+
+> Based on your options object, your users will be sent sms with your `appName`. We currently support Mongo and Postgres databases. 
+> 
+> If `isPostgres` is set to `false` we store your SID, registered user IDs and phone numbers inside a collection on your passed in Mongo database under the name `two auth users`. 
+> 
+> If `isPostgres` is set to `true` we store your SID, registered user
+> IDs and phone numbers inside a table on your passed in Postgres
+> database under the name `twoauthusers`.
+
+The initialization function will return an instance of a Two-Auth `client`. That `client` will have the `create`, `send`, and `verify` methods.
 
 ## Two-Auth Methods
+
+> Note: each of these methods are fully asynchronous and should occur at different points in your express middleware controller pattern. The methods each return a promise.
 
 ### `create()`
 
@@ -31,7 +49,7 @@ Provide two-auth with a user ID and a phone number associated with that user.
 
     client.create(*USER_ID*, *PHONE_NUMBER*);
 
-> Warning: Two-Auth currently only supports US phone numbers.
+> Warning: Two-Auth currently only supports US phone numbers. They must be formatted as a string to match +1XXXXXXXXXX
 
 `create` registers a new verification service with Twilio, which will allow your application to later send and verify codes to and from that phone number and user.
 
@@ -54,3 +72,7 @@ Once your user inputs their six digit code, pass it into the verification method
 > Make sure that the *code* you pass is a `string`! NOT a `number`.
 
 `verify` will properly identify and `return` `true` if the code is valid, `false` if the code is invalid.
+
+#### Authors
+
+Sierra Swaby, Ryan Dang, Giuseppe Valentino, Ian Geckeler, & Daniel Nagano-Gerace
