@@ -18,8 +18,26 @@ const postgresCreate = require("./functions/databases/postgres/create");
 const postgresSend = require("./functions/databases/postgres/send");
 const postgresVerify = require("./functions/databases/postgres/verify");
 
-const connect = (AccSID, AuthToken, mongoURI = null) => {
-  return new Client(AccSID, AuthToken, mongoURI);
+const connect = (
+  AccSID,
+  AuthToken,
+  options = {
+    appName: "",
+    connectionURI: null,
+    isPostgres: false
+  }
+) => {
+  if (typeof options === "string")
+    throw new Error(
+      "Options config must be an object, as specified in the documentation."
+    );
+  if (!options.hasOwnProperty("isPostgres")) {
+    options.isPostgres = false;
+  }
+  if (!options.hasOwnProperty("appName")) {
+    options.appName = "";
+  }
+  return new Client(AccSID, AuthToken, options);
 };
 
 // EXAMPLE CONFIG OBJECT
@@ -29,25 +47,7 @@ const connect = (AccSID, AuthToken, mongoURI = null) => {
 //   isPostgres: null
 // }
 class Client {
-  constructor(
-    AccSID,
-    AuthToken,
-    options = {
-      appName: "",
-      connectionURI: null,
-      isPostgres: false
-    }
-  ) {
-    if (typeof options === "string")
-      throw new Error(
-        "Options config must be an object, as specified in the documentation."
-      );
-    if (!options.hasOwnProperty("isPostgres")) {
-      options.isPostgres = false;
-    }
-    if (!options.hasOwnProperty("appName")) {
-      options.appName = "";
-    }
+  constructor(AccSID, AuthToken, options) {
     this.appName = options.appName;
     this.AccSID = AccSID;
     this.AuthToken = AuthToken;
