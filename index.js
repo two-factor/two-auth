@@ -21,7 +21,7 @@ const connect = (
   AuthToken,
   // optional parameters for when invoking twoAuth as a user
   options = {
-    appName: "",
+    appName: '',
     isPostgres: false,
     connectionURI: null
   }

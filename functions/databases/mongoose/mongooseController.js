@@ -1,7 +1,11 @@
 const mongooseController = {
+  // Takes in a userID and phone number associated with that user
+  // returns a promise
+  // if resolved, adds a user Object with the userId, sid, and phone associated with the service for that user...
+  // returns a reference to that object
+  // if rejected, throws error from verify API
   mongooseCreate: (userID, phone) => {
     const { client, TwoAuthUser, appName } = this;
-
     return new Promise((resolve, reject) => {
       if (typeof phone !== "string") {
         // adding a return before reject inside a promise stops the thread of execution
@@ -33,6 +37,12 @@ const mongooseController = {
         .catch(err => reject(new Error(String(err))));
     });
   },
+  // takes in a username and code
+  // checks whether that code is valid for that username
+  // returns a promise
+  // if there is a formatting error, promise rejects
+  // if there is no error, resolves to be the status of the verification
+  // status is true if verification succeeded, false if verification failed
   mongooseVerify: (userID, code) => {
     const TwoAuthUser = this.TwoAuthUser;
     return new Promise((resolve, reject) => {
@@ -61,6 +71,10 @@ const mongooseController = {
         });
     });
   },
+  // send takes in a userID
+  // it searches through users object to find sid and phone number
+  // then uses twilio api to send text message
+  // returns a promise
   mongooseSend: (userID) => {
     // props on the Client constructor object
     // users is never used, but is declared?
@@ -82,7 +96,7 @@ const mongooseController = {
                 "Phone Number Error: No phone number exists for this user."
               )
             );
-                // exactly the same as ../verify.js
+          // exactly the same as ../verify.js
           client.verify
             .services(sid)
             .verifications.create({
