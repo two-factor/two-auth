@@ -50,15 +50,15 @@ const noDbController = {
       if (!this.users[username])
         // adding a return before reject inside a promise stops the thread of execution
         return reject(
-          new Error("Username Error: This username has not been created yet.")
+          new Error('Username Error: This username has not been created yet.')
         );
 
       const { sid, phone } = this.users[username];
 
-      if (!sid) return reject(new Error("SID Error: No SID exists for this user."));
+      if (!sid) return reject(new Error('SID Error: No SID exists for this user.'));
       if (!phone)
         return reject(
-          new Error("Phone Number Error: No phone number exists for this user.")
+          new Error('Phone Number Error: No phone number exists for this user.')
         );
       this.client.verify
         .services(sid)
@@ -68,7 +68,7 @@ const noDbController = {
           code
         })
         .then(verification => {
-          if (verification.status === "approved") resolve(true);
+          if (verification.status === 'approved') resolve(true);
           // unsure why returning the resolve
           resolve(false);
         });
@@ -88,15 +88,15 @@ const noDbController = {
       if (!users[username])
         // adding a return before reject inside a promise stops the thread of execution
         return reject(
-          new Error("Username Error: This username has not been created yet.")
+          new Error('Username Error: This username has not been created yet.')
         );
 
       const { sid, phone } = users[username];
 
-      if (!sid) reject(new Error("SID Error: No SID exists for this user."));
+      if (!sid) reject(new Error('SID Error: No SID exists for this user.'));
       if (!phone)
         return reject(
-          new Error("Phone Number Error: No phone number exists for this user.")
+          new Error('Phone Number Error: No phone number exists for this user.')
         );
 
       client.verify
@@ -104,7 +104,7 @@ const noDbController = {
         .services(sid)
         .verifications.create({
           to: phone,
-          channel: "sms"
+          channel: 'sms'
         })
         .then(verification => {
           resolve(verification);

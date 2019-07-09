@@ -1,17 +1,17 @@
-const twilio = require("twilio");
-const mongoose = require("mongoose");
+const twilio = require('twilio');
+const mongoose = require('mongoose');
 
 // functions to be used if no database is used by the client
 const { create, send, verify } = require('./functions/noDbController');
 
 // import mongoose functions
 const { mongooseCreate, mongooseSend, mongooseVerify } = require('./functions/databases/mongoose/mongooseController');
-const userSchema = require("./functions/databases/mongoose/userSchema");
+const userSchema = require('./functions/databases/mongoose/userSchema');
 
 //import postgres functions
 const { postgresCreate, postgresSend, postgresVerify} = require('./functions/databases/postgres/postgresController');
-const generatePool = require("./functions/databases/postgres/configure");
-const createTable = require("./functions/databases/postgres/createtable");
+const generatePool = require('./functions/databases/postgres/configure');
+const createTable = require('./functions/databases/postgres/createtable');
 
 //
 const connect = (
@@ -27,14 +27,14 @@ const connect = (
   }
 ) => {
   // edge cases for entering information correctly into options parameter and providing default values to appName and isPostgres
-  if (typeof options === "string")
+  if (typeof options === 'string')
     throw new Error(
-      "Options config must be an object, as specified in the documentation."
+      'Options config must be an object, as specified in the documentation.'
     );
-  if (!options.hasOwnProperty("appName")) {
-    options.appName = "";
+  if (!options.hasOwnProperty('appName')) {
+    options.appName = '';
   }
-  if (!options.hasOwnProperty("isPostgres")) {
+  if (!options.hasOwnProperty('isPostgres')) {
     options.isPostgres = false;
   }
   // returns new client which is a constructor
@@ -43,9 +43,9 @@ const connect = (
 
 // EXAMPLE CONFIG OBJECT
 // options = {
-//   appName: "three-auth",
+//   appName: 'three-auth',
 //   isPostgres: true,
-//   connectionURI: "Mongo_URI"
+//   connectionURI: 'Mongo_URI'
 // }
 class Client {
   constructor(AccSID, AuthToken, options) {
@@ -62,13 +62,13 @@ class Client {
       // but what happens when we don't give a URI since it is an optional parameter?
       mongoose.connect(options.connectionURI)
         .then(db => {
-          console.log("Two-Auth successfully connected to Mongo");
+          console.log('Two-Auth successfully connected to Mongo');
         })
         .catch(err => {
-          throw new Error("Two-Auth Unable to connect to Mongo");
+          throw new Error('Two-Auth Unable to connect to Mongo');
         });
       // this is used for creating a collection called 'two-auth-user'
-      this.TwoAuthUser = mongoose.model("two-auth-user", userSchema);
+      this.TwoAuthUser = mongoose.model('two-auth-user', userSchema);
       // how come we're not using native mongoose methods on the model? Because these are going to be the Two-Auth methods
       this.create = mongooseCreate;
       this.send = mongooseSend;
@@ -83,22 +83,22 @@ class Client {
         return new Promise((resolve, reject) => {
           // connection using created pool
           pgPool.connect(function (err, database, done) {
-            if (err) reject(new Error("Error connecting to Postgres Pool."));
+            if (err) reject(new Error('Error connecting to Postgres Pool.'));
             if (!database) {
-              throw new Error("Could not find Database at Connection URI.");
+              throw new Error('Could not find Database at Connection URI.');
             }
             // if table not created yet, create it and modify closure to reflect
             if (tableCreated === false) {
               database
                 .query(createTable)
                 .then(res => {
-                  // ask Juan about resolve. we think it takes the object parameter and ask if database is connected or not and when done is "did it work?"
+                  // ask Juan about resolve. we think it takes the object parameter and ask if database is connected or not and when done is 'did it work?'
                   resolve({ database, done });
                   tableCreated = true;
                 })
                 // should probably use err or error
                 .catch(e =>
-                  reject(new Error("Error connecting to Postgres Pool."))
+                  reject(new Error('Error connecting to Postgres Pool.'))
                 );
             } else {
               resolve({ database, done });

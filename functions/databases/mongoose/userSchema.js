@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema } = require('mongoose');
 
 // deconstructed keys in Schema for more security
 const userSchema = new Schema({
