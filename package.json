@@ -1,6 +1,6 @@
 {
   "name": "two-auth",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Implement two-factor SMS authentication with the Twilio API in three lines of code.",
   "main": "index.js",
   "scripts": {
