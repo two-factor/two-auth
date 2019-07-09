@@ -1,4 +1,4 @@
-module.exports = function(userID) {
+module.exports = postgresSend: (userID) => {
   const { pgConnect, client } = this;
   return new Promise((resolve, reject) => {
     pgConnect()

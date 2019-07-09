@@ -1,4 +1,4 @@
-module.exports = function(userID, code) {
+const postgresVerify = (userID, code) => {
   const { pgConnect } = this;
   return new Promise((resolve, reject) => {
     pgConnect()
@@ -13,9 +13,9 @@ module.exports = function(userID, code) {
             const { sid, phone } = res.rows[0];
 
             if (!sid)
-              reject(new Error("SID Error: No SID exists for this user."));
+              return reject(new Error("SID Error: No SID exists for this user."));
             if (!phone)
-              reject(
+              return reject(
                 new Error(
                   "Phone Number Error: No phone number exists for this user."
                 )
@@ -48,3 +48,5 @@ module.exports = function(userID, code) {
   });
   //invoke done before you reject
 };
+
+module.exports = postgresVerify;
