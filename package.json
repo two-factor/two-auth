@@ -1,7 +1,7 @@
 {
   "name": "two-auth",
-  "version": "1.0.2",
-  "description": "This is the two factor twilio library.",
+  "version": "2.0.0",
+  "description": "Implement two-factor SMS authentication with the Twilio API in three lines of code.",
   "main": "index.js",
   "scripts": {
     "test": "jest --verbose"
@@ -12,6 +12,8 @@
   },
   "keywords": [
     "2fa",
+    "sms",
+    "two factor",
     "two-factor",
     "two",
     "two-factor-authentication",
