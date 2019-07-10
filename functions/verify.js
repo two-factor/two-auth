@@ -28,7 +28,7 @@ function verify(username, code) {
     //this functionality sends a texts to the phone registered at users[username]
         //this one refences 'this', which is different than the other files
         //this one also returns the resolved value
-        // removed the return for this.client.verify because it is inside a promise
+        //removed the return for this.client.verify because it is inside a promise
     this.client.verify
       .services(sid)
       .verificationChecks.create({
