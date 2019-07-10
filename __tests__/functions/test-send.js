@@ -5,16 +5,22 @@ describe("send unit tests", () => {
   const phone = 2;
   let mockVerificationCreate = jest.fn();
 
+  // added testNoSid to test properly
+
   let client = {
     users: {
       test: {
         sid,
+        phone
+      },
+      testNoSid: {
         phone
       }
     },
     send,
     client: {
       verify: {
+        //we should consider passing 'services' the SID as an argument
         services: () => ({
           verifications: {
             create: obj => {
@@ -40,15 +46,15 @@ describe("send unit tests", () => {
       expect(err).toBeInstanceOf(Error);
     }
   });
-
-  it("send should throw error upon nonexistent sid", () => {
+  // DONE: THIS WORKS SHOW IT SHOULD
+  it("send should throw error upon nonexistent sid", async () => {
     try {
-      client.send("test");
+      await client.send("testNoSid");
     } catch (err) {
       expect(err).toBeInstanceOf(Error);
     }
   });
-
+  //this isn't actually testing what it's describing
   it("send should throw error upon nonexistent phone number", () => {
     try {
       client.send("test");
@@ -56,7 +62,7 @@ describe("send unit tests", () => {
       expect(err).toBeInstanceOf(Error);
     }
   });
-
+  //
   it("send should create a verification", () => {
     client.send("test");
     client.send("test");
