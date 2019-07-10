@@ -19,7 +19,8 @@ const connect = (
   AccSID,
   // AuthToken is Twilio account token
   AuthToken,
-  // optional parameters for when invoking twoAuth as a user
+  //this is the third argument, which is optional
+  //where we specicify an appName, connectionURI, and if the DB is Postgres or not
   options = {
     appName: '',
     isPostgres: false,
@@ -31,13 +32,17 @@ const connect = (
     throw new Error(
       'Options config must be an object, as specified in the documentation.'
     );
-  if (!options.hasOwnProperty('appName')) {
-    options.appName = '';
-  }
-  if (!options.hasOwnProperty('isPostgres')) {
+  //check if 'options' argument doesn't have a property named 'isPostgres'
+  //not sure if this conditional is necessary
+  if (!options.hasOwnProperty("isPostgres")) {
     options.isPostgres = false;
   }
-  // returns new client which is a constructor
+  //check if 'options' argument doesn't have a property named 'appName'
+  //not sure if this conditional is necessary
+  if (!options.hasOwnProperty("appName")) {
+    options.appName = "";
+  }
+  //if those checks aren't true, we return the returned value of invoking the Client constructor with 3x arguments, AccSID, AuthToken, options
   return new Client(AccSID, AuthToken, options);
 };
 
@@ -49,6 +54,7 @@ const connect = (
 // }
 class Client {
   constructor(AccSID, AuthToken, options) {
+    // initializing instance's properties with parameters
     this.appName = options.appName;
     this.AccSID = AccSID;
     this.AuthToken = AuthToken;
@@ -64,43 +70,52 @@ class Client {
         .then(db => {
           console.log('Two-Auth successfully connected to Mongo');
         })
+        // if it doesn't connect, throw an error
         .catch(err => {
           throw new Error('Two-Auth Unable to connect to Mongo');
         });
-      // this is used for creating a collection called 'two-auth-user'
-      this.TwoAuthUser = mongoose.model('two-auth-user', userSchema);
-      // how come we're not using native mongoose methods on the model? Because these are going to be the Two-Auth methods
+      // adding Mongoose model to this Client instance, if using MongoDB
+      this.TwoAuthUser = mongoose.model("two-auth-user", userSchema);
+      // binding Mongoose-specific functions to instance of Client
       this.create = mongooseCreate;
       this.send = mongooseSend;
       this.verify = mongooseVerify;
     } else if (options.connectionURI !== null && options.isPostgres === true) {
-      // connect to the Postgres database and assign a reference to the connected database to our client object
+      // ensure URI is valid and check of working with Postgres DB.
+      // connect the database and assign a reference to it to our client object
       const pgPool = generatePool(options.connectionURI);
       // this is used to reference if a table has already been created
       let tableCreated = false;
-      // why is this not fat arrow syntax? We think it is because of the promise handling maybe? lol
-      this.pgConnect = function () {
+      this.pgConnect = () => {
+        // returns new promise inside this method
         return new Promise((resolve, reject) => {
           // connection using created pool
-          pgPool.connect(function (err, database, done) {
-            if (err) reject(new Error('Error connecting to Postgres Pool.'));
+          pgPool.connect((err, database, done) => {
+            // handles error if unable to connect to Postgres DB
+            if (err) reject(new Error("Error connecting to Postgres Pool."));
+            // handles if DB is undefined or null
             if (!database) {
               throw new Error('Could not find Database at Connection URI.');
             }
             // if table not created yet, create it and modify closure to reflect
             if (tableCreated === false) {
+              // if no table created, query DB with exported Query to make a new table
               database
                 .query(createTable)
+                // returns a promise after query
                 .then(res => {
-                  // ask Juan about resolve. we think it takes the object parameter and ask if database is connected or not and when done is 'did it work?'
+                  // if query is successful, result is not needed in resolve. resolve with an object with database and done method
                   resolve({ database, done });
+                  // reassign tableCreated to true after a table is made
                   tableCreated = true;
                 })
                 // should probably use err or error
+                // catch error if querying DB is unsuccessful
                 .catch(e =>
                   reject(new Error('Error connecting to Postgres Pool.'))
                 );
             } else {
+              // if table has already been made, resolve with an object with database and done method
               resolve({ database, done });
             }
           });
@@ -111,6 +126,7 @@ class Client {
       this.send = postgresSend;
       this.verify = postgresVerify;
     } else {
+      // if URI is null, then assign "vanilla" versionf of the three methods
       this.create = create;
       this.send = send;
       this.verify = verify;
