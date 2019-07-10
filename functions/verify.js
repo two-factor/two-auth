@@ -28,7 +28,8 @@ function verify(username, code) {
     //this functionality sends a texts to the phone registered at users[username]
         //this one refences 'this', which is different than the other files
         //this one also returns the resolved value
-    return this.client.verify
+        // removed the return for this.client.verify because it is inside a promise
+    this.client.verify
       .services(sid)
       .verificationChecks.create({
         to: phone,
@@ -42,7 +43,11 @@ function verify(username, code) {
       //if value is not approved, reject function is invoked with the boolean of 'false'
       //unsure if return is needed
         return resolve(false);
-      });
+      })
+      .catch(err => {
+        reject(
+          new Error('Error in verification process'))
+      })
       //no .catch in place for error handling
       //we should consider implementing this
   });
