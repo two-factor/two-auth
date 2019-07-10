@@ -1,41 +1,36 @@
-const twilio = require("twilio");
-const mongoose = require("mongoose");
+const twilio = require('twilio');
+const mongoose = require('mongoose');
 
-const create = require("./functions/create.js");
-const send = require("./functions/send.js");
-const verify = require("./functions/verify.js");
+// functions to be used if no database is used by the client
+const { create, send, verify } = require('./functions/noDbController');
 
 // import mongoose functions
-const mongooseCreate = require("./functions/databases/mongoose/create");
-const mongooseSend = require("./functions/databases/mongoose/send");
-const mongooseVerify = require("./functions/databases/mongoose/verify");
-const userSchema = require("./functions/databases/mongoose/userSchema");
+const { mongooseCreate, mongooseSend, mongooseVerify } = require('./functions/databases/mongoose/mongooseController');
+const userSchema = require('./functions/databases/mongoose/userSchema');
 
 //import postgres functions
-const generatePool = require("./functions/databases/postgres/configure");
-const createTable = require("./functions/databases/postgres/createtable");
-const postgresCreate = require("./functions/databases/postgres/create");
-const postgresSend = require("./functions/databases/postgres/send");
-const postgresVerify = require("./functions/databases/postgres/verify");
+const { postgresCreate, postgresSend, postgresVerify} = require('./functions/databases/postgres/postgresController');
+const generatePool = require('./functions/databases/postgres/configure');
+const createTable = require('./functions/databases/postgres/createtable');
 
+//
 const connect = (
-  //this is some Twilio account SID shit
+  // AccSID is Twilio account SID
   AccSID,
-  //this is some Twilio authorization token shit
+  // AuthToken is Twilio account token
   AuthToken,
   //this is the third argument, which is optional
   //where we specicify an appName, connectionURI, and if the DB is Postgres or not
   options = {
-    appName: "",
-    connectionURI: null,
-    isPostgres: false
+    appName: '',
+    isPostgres: false,
+    connectionURI: null
   }
 ) => {
-  //check if 'options' argument is a string
-  if (typeof options === "string")
-    //if it is a string, throws an error
+  // edge cases for entering information correctly into options parameter and providing default values to appName and isPostgres
+  if (typeof options === 'string')
     throw new Error(
-      "Options config must be an object, as specified in the documentation."
+      'Options config must be an object, as specified in the documentation.'
     );
   //check if 'options' argument doesn't have a property named 'isPostgres'
   //not sure if this conditional is necessary
@@ -53,9 +48,9 @@ const connect = (
 
 // EXAMPLE CONFIG OBJECT
 // options = {
-//   appName: "",
-//   connectionURI: null,
-//   isPostgres: null
+//   appName: 'three-auth',
+//   isPostgres: true,
+//   connectionURI: 'Mongo_URI'
 // }
 class Client {
   constructor(AccSID, AuthToken, options) {
@@ -63,22 +58,21 @@ class Client {
     this.appName = options.appName;
     this.AccSID = AccSID;
     this.AuthToken = AuthToken;
-    // look at docs about twilio API
+    // this.client verifies twilio account???
     this.client = twilio(this.AccSID, this.AuthToken);
     this.users = {};
-
-    // ensuring URI is there, and Postgres DB is false. if so, connect to MongoDB
+    // this if conditional might lead us to want to change the original options.isPostgres to be REQUIRED to be a boolean
+    // maybe use an if conditional to check if isPostgres is not true nor false nor null, then console.log('you fucked up')
     if (options.connectionURI !== null && options.isPostgres === false) {
-      mongoose
-        // connect to Mongo DB
-        .connect(options.connectionURI)
-        // if so, console log success
+      // when conditions are met, we connect to mongoose using the URI given
+      // but what happens when we don't give a URI since it is an optional parameter?
+      mongoose.connect(options.connectionURI)
         .then(db => {
-          console.log("Two Factor successfully connected to Mongo");
+          console.log('Two-Auth successfully connected to Mongo');
         })
         // if it doesn't connect, throw an error
         .catch(err => {
-          throw new Error("Two Factor Unable to connect to Mongo");
+          throw new Error('Two-Auth Unable to connect to Mongo');
         });
       // adding Mongoose model to this Client instance, if using MongoDB
       this.TwoAuthUser = mongoose.model("two-auth-user", userSchema);
@@ -90,17 +84,18 @@ class Client {
       // ensure URI is valid and check of working with Postgres DB.
       // connect the database and assign a reference to it to our client object
       const pgPool = generatePool(options.connectionURI);
+      // this is used to reference if a table has already been created
       let tableCreated = false;
-      this.pgConnect = function () {
+      this.pgConnect = () => {
         // returns new promise inside this method
         return new Promise((resolve, reject) => {
           // connection using created pool
-          pgPool.connect(function (err, database, done) {
+          pgPool.connect((err, database, done) => {
             // handles error if unable to connect to Postgres DB
             if (err) reject(new Error("Error connecting to Postgres Pool."));
             // handles if DB is undefined or null
             if (!database) {
-              throw new Error("Could not find Database at Connection URI.");
+              throw new Error('Could not find Database at Connection URI.');
             }
             // if table not created yet, create it and modify closure to reflect
             if (tableCreated === false) {
@@ -114,9 +109,10 @@ class Client {
                   // reassign tableCreated to true after a table is made
                   tableCreated = true;
                 })
+                // should probably use err or error
                 // catch error if querying DB is unsuccessful
                 .catch(e =>
-                  reject(new Error("Error connecting to Postgres Pool."))
+                  reject(new Error('Error connecting to Postgres Pool.'))
                 );
             } else {
               // if table has already been made, resolve with an object with database and done method
@@ -125,8 +121,7 @@ class Client {
           });
         });
       };
-
-      // assign the postgres functions to our client object
+      // assign the postgres functions to our client object that we created and imported from /functions
       this.create = postgresCreate;
       this.send = postgresSend;
       this.verify = postgresVerify;
