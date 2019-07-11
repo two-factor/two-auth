@@ -2,13 +2,8 @@ const twilio = require('twilio');
 const mongoose = require('mongoose');
 
 // functions to be used if no database is used by the client
-// const { create, send, verify } = require('./functions/noDbController');
+const { create, send, verify } = require('./functions/noDbController');
 
-const create = require('/Users/juanhart1/Documents/CSNYC/week_5/iteration_project_two_auth/functions/create.js');
-
-const send = require('/Users/juanhart1/Documents/CSNYC/week_5/iteration_project_two_auth/functions/send.js');
-
-const verify = require('/Users/juanhart1/Documents/CSNYC/week_5/iteration_project_two_auth/functions/verify.js');
 
 
 // import mongoose functions
