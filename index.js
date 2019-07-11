@@ -2,7 +2,13 @@ const twilio = require('twilio');
 const mongoose = require('mongoose');
 
 // functions to be used if no database is used by the client
-const { create, send, verify } = require('./functions/noDbController');
+// const { create, send, verify } = require('./functions/noDbController');
+
+const create = require('/Users/juanhart1/Documents/CSNYC/week_5/iteration_project_two_auth/functions/create.js');
+
+const send = require('/Users/juanhart1/Documents/CSNYC/week_5/iteration_project_two_auth/functions/send.js');
+
+const verify = require('/Users/juanhart1/Documents/CSNYC/week_5/iteration_project_two_auth/functions/verify.js');
 
 // import mongoose functions
 const { mongooseCreate, mongooseSend, mongooseVerify } = require('./functions/databases/mongoose/mongooseController');
@@ -24,7 +30,8 @@ const connect = (
   options = {
     appName: '',
     isPostgres: false,
-    connectionURI: null
+    connectionURI: null,
+    phoneCall: false
   }
 ) => {
   // edge cases for entering information correctly into options parameter and providing default values to appName and isPostgres
@@ -59,6 +66,7 @@ class Client {
     this.AccSID = AccSID;
     this.AuthToken = AuthToken;
     // this.client verifies twilio account???
+    this.phoneCall = options.phoneCall;
     this.client = twilio(this.AccSID, this.AuthToken);
     this.users = {};
     // this if conditional might lead us to want to change the original options.isPostgres to be REQUIRED to be a boolean

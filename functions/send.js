@@ -8,6 +8,8 @@ function send(username) {
   const users = this.users;
   //variable 'client' is assigned whatever value exists at this.client
   const client = this.client;
+  // allows a conditional for phone call or sms
+  const phoneCall = this.phoneCall;
   //returns a promise object
   return new Promise((resolve, reject) => {
     //asks if inputted 'username' exists inside of the 'users' object
@@ -35,7 +37,7 @@ function send(username) {
         to: phone,
         //channel could be the way authentication is sent
         //in order to implement phone call stretch feature, we may need to change this
-        channel: "sms"
+        channel: phoneCall ? 'call' : 'sms'
       })
       //we are unsure what is exactly in the 'verification' data
       //could possible be a simple verification of whether the message was successfully sent
