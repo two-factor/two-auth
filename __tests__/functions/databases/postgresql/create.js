@@ -1,5 +1,3 @@
-// this test might need to connect to test DB for actual testing.
-// if so, need actual PG methods, not mock ones
 /*
 MOCK DB INFO
 * const client = require("../index")(process.env.SID, * process.env.AUTH, {
@@ -29,17 +27,17 @@ describe('tests the pg create method', () => {
       // creating a new pgPool each new instance of FakeClient
       // made into arrow function
       this.pgConnect = () => new Promise((resolve, reject) => {
-          testPgPool.connect((err, database, done) => {
-            if (err) {
-              reject(new Error("Error connecting to Test Postgres Pool."));
-            }
-            // handles if DB is undefined or null
-            if (!database) {
-              throw new Error('Could not find Test Database at Connection URI.');
-            }
-            resolve({ database, done });
-          })
+        testPgPool.connect((err, database, done) => {
+          if (err) {
+            reject(new Error('Error connecting to Test Postgres Pool.'));
+          }
+          // handles if DB is undefined or null
+          if (!database) {
+            throw new Error('Could not find Test Database at Connection URI.');
+          }
+          resolve({ database, done });
         });
+      });
       this.client = {
         verify: {
           services: {

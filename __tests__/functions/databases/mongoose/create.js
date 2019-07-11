@@ -1,4 +1,5 @@
 //required mongoose module
+// NOTE: these tests require Mocha
 const mongoose = require("mongoose");
 const mocha = require('mocha');
 const chai = require('chai')
