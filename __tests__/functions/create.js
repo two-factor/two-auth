@@ -1,7 +1,8 @@
-//importing vanilla create method
+
 const create = require("../../functions/create");
 //these tests test that specific method
 describe("tests the create function", () => {
+
   //declares a mock class that mimics their client class in index.js
   //this 'fakeClient' doesn't take in 3x arguments like the real Client does
   class FakeClient {
@@ -55,19 +56,43 @@ describe("tests the create function", () => {
     });
   });
 
+
   //we could add tests that ensure errors are thrown with improper arguments to the create method
 
   //this tests check is their is an error in the creation method's process
+
   it("passes error message on rejection", () => {
     //instantiated new instance of client
     const fakeClient = new FakeClient(true);
-    //pull users property off of the fakeClient
-    let users = fakeClient.users;
-    //invokes create method on fakeClient
-    //if error occurs in create method process of client.verify.services.create, reject is invoked
-    return fakeClient.create("ian", "+17604307620")
-      .catch(err => {
+
+    // users is not utilized
+    return fakeClient.create("ian", "+17604307620").catch(err => {
       expect(err instanceof Error).toBeTruthy();
     });
   });
+
+  it('throws error if phone number is not a string', () => {
+    const fakeClient = new FakeClient(false);
+    let users = fakeClient.users;
+    return fakeClient.create("dillon", '+19795718947').catch(err => {
+      expect(err instanceof Error).toBeFalsy();
+    })
+  });
+
+  // need to fix if conditional in create.js so that it is formated in US phone number format
+  it('phone number should be formatted correctly', () => {
+    const fakeClient = new FakeClient(false);
+    let users = FakeClient.users;
+    return fakeClient.create("dillon", '+19795718947').catch(err => {
+      expect(err instanceof Error).toBeFalsy();
+    })
+  });
+  it('phone number should be the correct length', () => {
+    const fakeClient = new FakeClient(false);
+    let users = FakeClient.users;
+    return fakeClient.create("dillon", '+19795718947').catch(err => {
+      expect(err instanceof Error).toBeFalsy();
+    })
+  });
 });
+

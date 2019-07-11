@@ -1,5 +1,5 @@
-var parse = require("pg-connection-string").parse;
-const { Pool } = require("pg");
+var parse = require('pg-connection-string').parse;
+const { Pool } = require('pg');
 
 //function takes in a URI, returns a PG Pool
 

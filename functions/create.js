@@ -10,15 +10,21 @@ function create(userID, phone) {
 
   return new Promise((resolve, reject) => {
     //input for 'phone' argument must be a string
-    if (typeof phone !== 'string') {
+    if (typeof phone !== 'string') 
       //if it is not, we throw an error
       reject(new Error('typeof phone must be string'));
-    }
+    
     //input for 'phone' must be in a US phone number format
-    if (phone.substring(0, 2) !== '+1') {
+    if (phone.substring(0, 2) !== '+1') 
       //if improperly formatted, we throw an error
       reject(new Error('phone must be string formatted as such: +1XXXXXXXXXX'));
-    }
+    
+    if (phone.substring(2).match(/[^0-9]/g)) 
+      reject(new Error('phone number must include only numbers'));
+    
+    if (phone.length !== 12) 
+      reject(new Error('including the +1, the length of phone must equal 12'))
+    
 
     //we should consider verifying the proper length of the 'phone' number
     //we should also consider verifyint that each 'phone' number is all numbers

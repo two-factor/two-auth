@@ -1,3 +1,5 @@
+// this is to test if the database works rather than the actual prototypes/methods work
+
 // Here we will be unit testing the 3 main database functions from server/db/markets.js
 const fs = require('fs');
 const path = require('path');

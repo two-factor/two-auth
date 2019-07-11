@@ -1,6 +1,9 @@
+// we need to provide tests and potentially update the functionality for the verify method that would not only check for the instances of user, phone number, etc. and the actual data itself such as the format of phone number, etc.
+
 const verify = require("../../functions/verify");
 //On client check verify
 
+// needs better description text
 describe("#verify", () => {
   class FakeClient {
     constructor(isError) {
@@ -19,7 +22,7 @@ describe("#verify", () => {
         }
       };
       this.verify = verify;
-      this.users = { Zep: { sid: "Zep3246", phone: "3479087000" } };
+      this.users = { Zep: { sid: "Zep3246", phone: "+13479087000" } };
     }
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "two-auth",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Implement two-factor SMS authentication with the Twilio API in three lines of code.",
   "main": "index.js",
   "scripts": {
@@ -34,6 +34,8 @@
   },
   "homepage": "https://github.com/two-factor/two-factor#readme",
   "dependencies": {
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.0",
     "mongoose": "^5.6.3",
     "pg": "^7.11.0",
     "pg-connection-string": "^2.1.0",
@@ -41,6 +43,7 @@
   },
   "devDependencies": {
     "dotenv": "^8.0.0",
+    "eslint": "^6.0.1",
     "jest": "^24.8.0"
   }
 }
