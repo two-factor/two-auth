@@ -4,12 +4,12 @@ const mongoose = require('mongoose');
 // functions to be used if no database is used by the client
 const { create, send, verify } = require('./functions/noDbController');
 
-// import mongoose functions
+// import mongoose functions from controller
 const { mongooseCreate, mongooseSend, mongooseVerify } = require('./functions/databases/mongoose/mongooseController');
 const userSchema = require('./functions/databases/mongoose/userSchema');
 
-//import postgres functions
-const { postgresCreate, postgresSend, postgresVerify} = require('./functions/databases/postgres/postgresController');
+//import postgres functions from controller
+const { postgresCreate, postgresSend, postgresVerify } = require('./functions/databases/postgres/postgresController');
 const generatePool = require('./functions/databases/postgres/configure');
 const createTable = require('./functions/databases/postgres/createtable');
 
@@ -58,7 +58,6 @@ class Client {
     this.appName = options.appName;
     this.AccSID = AccSID;
     this.AuthToken = AuthToken;
-    // this.client verifies twilio account???
     this.client = twilio(this.AccSID, this.AuthToken);
     this.users = {};
     // this if conditional might lead us to want to change the original options.isPostgres to be REQUIRED to be a boolean

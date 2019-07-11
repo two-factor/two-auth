@@ -1,0 +1,9 @@
+What the fuck are we doing here???
+*Create a test database
+*Populate database with a few users
+*Follow the userSchema
+
+Now, what the fuck are we doing???
+*Integrate test database into create.js test file
+*import mocha library
+*decide on assertion library (chai)

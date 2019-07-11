@@ -1,13 +1,14 @@
-const verify = require("../../../../functions/databases/postgres/verify");
+// NOTE: THESE TESTS HAVE NOT BEEN VERIFIED
+const { postgresVerify } = require("../../../../functions/databases/postgres/postgresController");
 
 describe("test for postgres", () => {
   class FakeClient {
     constructor() {
-      this.pgConnect = function() {
+      this.pgConnect = function () {
         return new Promise((resolve, reject) => {
           resolve({
             database: {
-              query: function(query, values, callback) {
+              query: function (query, values, callback) {
                 return new Promise((resolve, reject) => {
                   resolve({
                     rows: [
@@ -20,7 +21,7 @@ describe("test for postgres", () => {
                 });
               }
             },
-            done: function() {
+            done: function () {
               return null;
             }
           });
@@ -28,10 +29,10 @@ describe("test for postgres", () => {
       };
       this.client = {
         verify: {
-          services: function(sid) {
+          services: function (sid) {
             return {
               verificationChecks: {
-                create: function({ code }) {
+                create: function ({ code }) {
                   return new Promise((resolve, reject) => {
                     if (code === "123456") resolve({ status: "approved" });
                     else resolve({ status: "rejected" });
@@ -42,7 +43,7 @@ describe("test for postgres", () => {
           }
         }
       };
-      this.verify = verify;
+      this.verify = postgresVerify;
     }
   }
 

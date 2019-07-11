@@ -4,7 +4,8 @@
   "description": "Implement two-factor SMS authentication with the Twilio API in three lines of code.",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "test2": "mocha __tests__/functions/databases/mongoose/create.js"
   },
   "repository": {
     "type": "git",
@@ -34,8 +35,11 @@
   },
   "homepage": "https://github.com/two-factor/two-factor#readme",
   "dependencies": {
+    "chai": "^4.2.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.0",
+    "mongodb": "^3.2.7",
+    "mocha": "^6.1.4",
     "mongoose": "^5.6.3",
     "pg": "^7.11.0",
     "pg-connection-string": "^2.1.0",
