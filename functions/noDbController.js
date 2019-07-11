@@ -57,23 +57,23 @@ const noDbController = {
         .catch(err => reject(new Error(String(err))));
     });
   },
-  // takes in a username and code - (6 digit code from the SMS text)
-  // checks whether that code is valid for that username
+  // takes in a userID and code - (6 digit code from the SMS text)
+  // checks whether that code is valid for that userID
   // returns a promise
   // if there is a formatting error, promise rejects
   // if there is no error, resolves to be the status of the verification
   // status is true if verification succeeded, false if verification failed
-  verify: function (username, code) {
+  verify: function (userID, code) {
     //promise is returned from function
     return new Promise((resolve, reject) => {
-      //asks if inputted 'username' exists inside of the 'users' object
-      if (!this.users[username])
+      //asks if inputted 'userID' exists inside of the 'users' object
+      if (!this.users[userID])
         //if it doesn't, throws an error
         reject(
-          new Error("Username Error: This username has not been created yet.")
+          new Error("userID Error: This userID has not been created yet.")
         );
       //if it does, we destructure the object and extract the 'sid' and 'phone' property values
-      const { sid, phone } = this.users[username];
+      const { sid, phone } = this.users[userID];
       //this confirms that the sid is not undefined
           //if it is, throws an error
       if (!sid) reject(new Error("SID Error: No SID exists for this user."));
@@ -84,7 +84,7 @@ const noDbController = {
           new Error("Phone Number Error: No phone number exists for this user.")
         );
       //this could be some Twilio API shit
-      //this functionality sends a texts to the phone registered at users[username]
+      //this functionality sends a texts to the phone registered at users[userID]
           //this one refences 'this', which is different than the other files
           //this one also returns the resolved value
       return this.client.verify
@@ -106,12 +106,12 @@ const noDbController = {
         //we should consider implementing this
     });
   },
-  // send takes in a username
+  // send takes in a userID
   // it searches through users object to find sid and phone number
   // then uses twilio api to send text message
   // returns a promise
 
-  send: function (username) {
+  send: function (userID, phoneCall = false) {
     //still unclear on what 'this' refers to
     //variable 'users' is assigned whatever value exists at this.users
     const users = this.users;
@@ -119,14 +119,14 @@ const noDbController = {
     const client = this.client;
     //returns a promise object
     return new Promise((resolve, reject) => {
-      //asks if inputted 'username' exists inside of the 'users' object
-      if (!users[username])
+      //asks if inputted 'userID' exists inside of the 'users' object
+      if (!users[userID])
         //if it doesn't, throws an error
         reject(
-          new Error("Username Error: This username has not been created yet.")
+          new Error("userID Error: This userID has not been created yet.")
         );
       //if it does, we destructure the object and extract the 'sid' and 'phone' property values
-      const { sid, phone } = users[username];
+      const { sid, phone } = users[userID];
       //this confirms that the sid is not undefined
       //if it is, throws an error
       if (!sid) reject(new Error("SID Error: No SID exists for this user."));
@@ -137,14 +137,14 @@ const noDbController = {
           new Error("Phone Number Error: No phone number exists for this user.")
         );
       //this could be some Twilio API shit
-      //this functionality sends a texts to the phone registered at users[username]
+      //this functionality sends a texts to the phone registered at users[userID]
       client.verify
         .services(sid)
         .verifications.create({
           to: phone,
           //channel could be the way authentication is sent
           //in order to implement phone call stretch feature, we may need to change this
-          channel: "sms"
+          channel: phoneCall ? "call" : "sms"
         })
         //we are unsure what is exactly in the 'verification' data
         //could possible be a simple verification of whether the message was successfully sent

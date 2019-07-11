@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const { create, send, verify } = require('./functions/noDbController');
 
 
+
 // import mongoose functions
 const { mongooseCreate, mongooseSend, mongooseVerify } = require('./functions/databases/mongoose/mongooseController');
 // const mongooseCreate = require('./functions/databases/mongoose/create');
@@ -62,7 +63,6 @@ class Client {
     this.appName = options.appName;
     this.AccSID = AccSID;
     this.AuthToken = AuthToken;
-    // this.client verifies twilio account???
     this.client = twilio(this.AccSID, this.AuthToken);
     this.users = {};
     // this if conditional might lead us to want to change the original options.isPostgres to be REQUIRED to be a boolean

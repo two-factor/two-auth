@@ -4,6 +4,10 @@
 // if there is a formatting error, promise rejects
 // if there is no error, resolves to be the status of the verification
 // status is true if verification succeeded, false if verification failed
+
+//INPUTTED CODE ARGUMENT MUST BE A STRING!!!
+  //CONSIDER INCORPORATING INPUT VALIDATION FOR THIS
+
 function verify(username, code) {
   //promise is returned from function
   return new Promise((resolve, reject) => {

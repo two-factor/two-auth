@@ -16,15 +16,8 @@ const mongooseController = {
         //if it is not, we throw an error
         reject(new Error("typeof phone must be string"));
       }
-      // //input for 'phone' must be in a US phone number format
-      // if (phone.substring(0, 2) !== "+1") {
-      //   //if improperly formatted, we throw an error
-      //   reject(new Error("phone must be string formatted as such: +1XXXXXXXXXX"));
-      // }
+     
       if (!phone.match(/^\+?[1-9]\d{1,14}$/g)) reject(new Error('phone number invalid'));
-  
-      //we should consider verifying the proper length of the 'phone' number
-      //we should also consider verifyint that each 'phone' number is all numbers
   
       //this logic could be relative to the Twilio API
       client.verify.services
@@ -113,7 +106,7 @@ const mongooseController = {
   // it searches through users object to find sid and phone number
   // then uses twilio api to send text message
   // returns a promise
-  mongooseSend: function (userID) {
+  mongooseSend: function (userID, phoneCall = false) {
     //still unclear on what 'this' refers to
     //variable 'users' is assigned whatever value exists at this.users, which is not being used here
     const users = this.users;
@@ -149,7 +142,7 @@ const mongooseController = {
               to: phone,
               //channel could be the way authentication is sent
               //in order to implement phone call stretch feature, we may need to change this
-              channel: "sms"
+              channel: phoneCall ? "call" : "sms"
             })
             //we are unsure what is exactly in the 'verification' data
             //could possible be a simple verification of whether the message was successfully sent
