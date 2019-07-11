@@ -47,6 +47,7 @@ module.exports = function (userID, code) {
               //verification object has a 'status' property
               //if value is approved, resolve function is invoked with the boolean of 'true'
               .then(verification => {
+                done();
                 if (verification.status === "approved") resolve(true);
                 resolve(false);
               })
