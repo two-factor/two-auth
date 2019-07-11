@@ -84,7 +84,7 @@ describe('tests the pg create method', () => {
   })
 
 
-  it('phone number that is not a string should throw an error', () => {
+  xit('phone number that is not a string should throw an error', () => {
     const fakeClient = new FakeClient(false);
     return fakeClient.create('Will', 19795718947)
       .catch(err => {
@@ -92,7 +92,7 @@ describe('tests the pg create method', () => {
       });
   })
 
-  it('improperly formatted phone number should throw an error', () => {
+  xit('improperly formatted phone number should throw an error', () => {
     const fakeClient = new FakeClient(false);
     return fakeClient.create('Will', '9795718947')
       .catch(err => {
@@ -101,7 +101,7 @@ describe('tests the pg create method', () => {
   })
 
   // as an example below: phone number with letters should throw an error
-  it('phone number including non numeric characters should throw an error', () => {
+  xit('phone number including non numeric characters should throw an error', () => {
     const fakeClient = new FakeClient(false);
     return fakeClient.create('Will', '+197957189ab')
       .catch(err => {
@@ -109,7 +109,7 @@ describe('tests the pg create method', () => {
       });
   })
 
-  it('phone number not of proper length should throw an error', () => {
+  xit('phone number not of proper length should throw an error', () => {
     const fakeClient = new FakeClient(false);
     return fakeClient.create('Will', '+1979571')
       .catch(err => {
@@ -119,7 +119,7 @@ describe('tests the pg create method', () => {
 
 
   // for catching error client.verify.services
-  it('if the create method from twilio fails, it should throw an error', () => {
+  xit('if the create method from twilio fails, it should throw an error', () => {
     const fakeClient = new FakeClient(true);
     return fakeClient.create('Will', '+19795718947')
       .catch(err => {
@@ -127,7 +127,7 @@ describe('tests the pg create method', () => {
       });
   })
 
-  it("generates a postgres row with the correct sid", () => {
+  xit("generates a postgres row with the correct sid", () => {
     const fakeClient = new FakeClient(false);
     // when pgConnect is invoked, it returns an object with database key/value pair, and done key/value pair.
     // destructuring those values here
