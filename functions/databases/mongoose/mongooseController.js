@@ -116,6 +116,8 @@ const mongooseController = {
     const TwoAuthUser = this.TwoAuthUser;
     //returns a promise object
     return new Promise((resolve, reject) => {
+      if (typeof phoneCall !== "boolean") reject(new Error('phoneCall parameter must be boolean'))
+
       // invokes findOne method on any Mongoose model to found userID parameter
       TwoAuthUser.findOne({ userID: userID })
         // returns a promise, if search was successful. returns found user

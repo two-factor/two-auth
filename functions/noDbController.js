@@ -10,32 +10,32 @@ const noDbController = {
   // userID and phone parameters come from the client input
   create: function (userID, phone) {
     //Get clear on what 'this' is
-      //Could possibly be relative to Twilio API
+    //Could possibly be relative to Twilio API
     const { client, users, appName } = this;
-  
+
     return new Promise((resolve, reject) => {
       //input for 'phone' argument must be a string
-      if (typeof phone !== 'string') 
+      if (typeof phone !== 'string')
         //if it is not, we throw an error
         reject(new Error('typeof phone must be string'));
-      
+
       //input for 'phone' must be in a US phone number format
       // if (phone.substring(0, 2) !== '+1') 
       //   //if improperly formatted, we throw an error
       //   reject(new Error('phone must be string formatted as such: +1XXXXXXXXXX'));
-      
+
       // if (phone.substring(2).match(/[^0-9]/g)) 
       //   reject(new Error('phone number must include only numbers'));
-      
+
       // if (phone.length !== 12) 
       //   reject(new Error('including the +1, the length of phone must equal 12'))
-  
+
       if (!phone.match(/^\+?[1-9]\d{1,14}$/g)) reject(new Error('phone number invalid'))
-      
-  
+
+
       //we should consider verifying the proper length of the 'phone' number
       //we should also consider verifyint that each 'phone' number is all numbers
-  
+
       //this logic could be relative to the Twilio API
       client.verify.services
         .create({ friendlyName: `${appName}` })
@@ -44,7 +44,7 @@ const noDbController = {
           //data returned from promise is destructured for the property of 'sid'
           const { sid } = service;
           //either adds or updates the 'users' object at the given 'userID' with the object assigned
-            //assigned object has 3x properties, userID, sid, phone
+          //assigned object has 3x properties, userID, sid, phone
           users[userID] = {
             userID,
             sid,
@@ -53,7 +53,7 @@ const noDbController = {
           //if successful, this promise will return the newly created user object
           resolve(users[userID]);
         })
-          //if unsuccessful, this promise will return the error message
+        //if unsuccessful, this promise will return the error message
         .catch(err => reject(new Error(String(err))));
     });
   },
@@ -75,18 +75,18 @@ const noDbController = {
       //if it does, we destructure the object and extract the 'sid' and 'phone' property values
       const { sid, phone } = this.users[userID];
       //this confirms that the sid is not undefined
-          //if it is, throws an error
+      //if it is, throws an error
       if (!sid) reject(new Error("SID Error: No SID exists for this user."));
       //this confirms that the phone is not undefined
-          //if it is, throws an error
+      //if it is, throws an error
       if (!phone)
         reject(
           new Error("Phone Number Error: No phone number exists for this user.")
         );
       //this could be some Twilio API shit
       //this functionality sends a texts to the phone registered at users[userID]
-          //this one refences 'this', which is different than the other files
-          //this one also returns the resolved value
+      //this one refences 'this', which is different than the other files
+      //this one also returns the resolved value
       return this.client.verify
         .services(sid)
         .verificationChecks.create({
@@ -98,12 +98,12 @@ const noDbController = {
         //if value is approved, resolve function is invoked with the boolean of 'true'
         .then(verification => {
           if (verification.status === "approved") resolve(true);
-        //if value is not approved, reject function is invoked with the boolean of 'false'
-        //unsure if return is needed
+          //if value is not approved, reject function is invoked with the boolean of 'false'
+          //unsure if return is needed
           return resolve(false);
         });
-        //no .catch in place for error handling
-        //we should consider implementing this
+      //no .catch in place for error handling
+      //we should consider implementing this
     });
   },
   // send takes in a userID
@@ -119,6 +119,8 @@ const noDbController = {
     const client = this.client;
     //returns a promise object
     return new Promise((resolve, reject) => {
+      if (typeof phoneCall !== "boolean") reject(new Error('phoneCall parameter must be boolean'))
+
       //asks if inputted 'userID' exists inside of the 'users' object
       if (!users[userID])
         //if it doesn't, throws an error
