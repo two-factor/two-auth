@@ -2,14 +2,12 @@
 // it searches through users object to find sid and phone number
 // then uses twilio api to send text message
 // returns a promise
-function send(username) {
+function send(username, phoneCall = false) {
   //still unclear on what 'this' refers to
   //variable 'users' is assigned whatever value exists at this.users
   const users = this.users;
   //variable 'client' is assigned whatever value exists at this.client
   const client = this.client;
-  // allows a conditional for phone call or sms
-  const phoneCall = this.phoneCall;
   //returns a promise object
   return new Promise((resolve, reject) => {
     //asks if inputted 'username' exists inside of the 'users' object

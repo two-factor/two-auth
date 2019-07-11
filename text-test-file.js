@@ -10,7 +10,7 @@ const options = {
   // added phoneCall as an optional parameter so that the client choose whether the user wants a sms or phone call
 
   // we need the full options object in order for phoneCall to work
-  phoneCall: false,
+  // defaultSMS: true
 };
 //invoke connect function we required
 //this creates an instance of client that has 3x methods => create, send, & verify
@@ -20,7 +20,7 @@ const client = TwoAuth(willSid, willToken, options);
 // console.log(client, '***');
 const asnyncTest = async () => {
   await client.create('juanIsTheMan', '+15044270739');
-  await client.send('juanIsTheMan');
+  await client.send('juanIsTheMan', true);
 }
 
 asnyncTest();

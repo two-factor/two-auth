@@ -30,8 +30,7 @@ const connect = (
   options = {
     appName: '',
     isPostgres: false,
-    connectionURI: null,
-    phoneCall: false
+    connectionURI: null
   }
 ) => {
   // edge cases for entering information correctly into options parameter and providing default values to appName and isPostgres
@@ -65,8 +64,6 @@ class Client {
     this.appName = options.appName;
     this.AccSID = AccSID;
     this.AuthToken = AuthToken;
-    // this.client verifies twilio account???
-    this.phoneCall = options.phoneCall;
     this.client = twilio(this.AccSID, this.AuthToken);
     this.users = {};
     // this if conditional might lead us to want to change the original options.isPostgres to be REQUIRED to be a boolean
