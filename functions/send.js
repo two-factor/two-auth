@@ -19,10 +19,10 @@ function send(username, phoneCall = false) {
     //if it does, we destructure the object and extract the 'sid' and 'phone' property values
     const { sid, phone } = users[username];
     //this confirms that the sid is not undefined
-        //if it is, throws an error
+    //if it is, throws an error
     if (!sid) reject(new Error("SID Error: No SID exists for this user."));
     //this confirms that the phone is not undefined
-        //if it is, throws an error
+    //if it is, throws an error
     if (!phone)
       reject(
         new Error("Phone Number Error: No phone number exists for this user.")
