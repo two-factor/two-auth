@@ -5,7 +5,7 @@ const chai = require('chai')
 const expect = chai.expect;
 //required 'create' function from this file
 const mongooseCreate = require("../../../../functions/databases/mongoose/create");
-const userSchema = require('/Users/juanhart1/Documents/CSNYC/week_5/iteration_project_two_auth/functions/databases/mongoose/userSchema.js')
+const userSchema = require('../../../../functions/databases/mongoose/userSchema.js')
 
 const testModel = mongoose.model('testModel', userSchema);
 // const testUser = new testModel({ userID: 'ep36', sid: '1', phone: '+19712222222' });

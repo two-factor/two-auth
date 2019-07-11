@@ -4,8 +4,12 @@ const mongoose = require('mongoose');
 // functions to be used if no database is used by the client
 const { create, send, verify } = require('./functions/noDbController');
 
+
 // import mongoose functions
 const { mongooseCreate, mongooseSend, mongooseVerify } = require('./functions/databases/mongoose/mongooseController');
+// const mongooseCreate = require('./functions/databases/mongoose/create');
+// const mongooseSend = require('./functions/databases/mongoose/send');
+// const mongooseVerify = require('./functions/databases/mongoose/verify');
 const userSchema = require('./functions/databases/mongoose/userSchema');
 
 //import postgres functions

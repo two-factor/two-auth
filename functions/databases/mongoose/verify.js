@@ -50,7 +50,7 @@ function verify(userID, code) {
       })
       //this .catch applies to the .findOne Promise
       .catch(err => {
-        reject(false);
+        return reject(false);
       });
   });
 }
