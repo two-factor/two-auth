@@ -1,5 +1,6 @@
 
-const create = require("../../functions/create");
+const { create } = require("../../functions/noDbController");
+
 //these tests test that specific method
 describe("tests the create function", () => {
 

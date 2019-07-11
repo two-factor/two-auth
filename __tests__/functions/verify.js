@@ -1,6 +1,7 @@
 // we need to provide tests and potentially update the functionality for the verify method that would not only check for the instances of user, phone number, etc. and the actual data itself such as the format of phone number, etc.
 
-const verify = require("../../functions/verify");
+const { verify } = require("../../functions/noDbController");
+
 //On client check verify
 
 // needs better description text
