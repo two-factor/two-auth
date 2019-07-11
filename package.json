@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --verbose",
-    "test2": "mocha /Users/juanhart1/Documents/CSNYC/week_5/iteration_project_two_auth/__tests__/functions/databases/mongoose/create.js"
+    "test2": "mocha __tests__/functions/databases/mongoose/create.js"
   },
   "repository": {
     "type": "git",
@@ -38,8 +38,8 @@
     "chai": "^4.2.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.0",
-    "mocha": "^6.1.4",
     "mongodb": "^3.2.7",
+    "mocha": "^6.1.4",
     "mongoose": "^5.6.3",
     "pg": "^7.11.0",
     "pg-connection-string": "^2.1.0",

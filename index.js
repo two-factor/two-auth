@@ -10,8 +10,12 @@ const send = require('/Users/juanhart1/Documents/CSNYC/week_5/iteration_project_
 
 const verify = require('/Users/juanhart1/Documents/CSNYC/week_5/iteration_project_two_auth/functions/verify.js');
 
+
 // import mongoose functions
 const { mongooseCreate, mongooseSend, mongooseVerify } = require('./functions/databases/mongoose/mongooseController');
+// const mongooseCreate = require('./functions/databases/mongoose/create');
+// const mongooseSend = require('./functions/databases/mongoose/send');
+// const mongooseVerify = require('./functions/databases/mongoose/verify');
 const userSchema = require('./functions/databases/mongoose/userSchema');
 
 //import postgres functions

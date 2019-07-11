@@ -15,11 +15,12 @@ function create(userID, phone) {
       //if it is not, we throw an error
       reject(new Error("typeof phone must be string"));
     }
-    //input for 'phone' must be in a US phone number format
-    if (phone.substring(0, 2) !== "+1") {
-      //if improperly formatted, we throw an error
-      reject(new Error("phone must be string formatted as such: +1XXXXXXXXXX"));
-    }
+    // //input for 'phone' must be in a US phone number format
+    // if (phone.substring(0, 2) !== "+1") {
+    //   //if improperly formatted, we throw an error
+    //   reject(new Error("phone must be string formatted as such: +1XXXXXXXXXX"));
+    // }
+    if (!phone.match(/^\+?[1-9]\d{1,14}$/g)) reject(new Error('phone number invalid'));
 
     //we should consider verifying the proper length of the 'phone' number
     //we should also consider verifyint that each 'phone' number is all numbers
