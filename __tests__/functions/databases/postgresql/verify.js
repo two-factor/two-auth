@@ -28,31 +28,43 @@ describe('test for postgres', () => {
   const testPgPool = generatePool(mockURI);
   class FakeClient {
     constructor() {
-      this.pgConnect = () => new Promise((resolve, reject) => {
-        testPgPool.connect((err, database, done) => {
-          if (err) {
-            reject(new Error('Error connecting to Test Postgres Pool.'));
-          }
-          // handles if DB is undefined or null
-          if (!database) {
-            throw new Error('Could not find Test Database at Connection URI.');
-          }
-          resolve({ database, done });
-        });
-      });
-      this.client = {
-        verify: {
-          services: sid => ({
-            verificationChecks: {
-              create({ code }) {
+      this.pgConnect = function () {
+        return new Promise((resolve, reject) => {
+          resolve({
+            database: {
+              query(query, values, callback) {
                 return new Promise((resolve, reject) => {
-                  if (code === '123456') resolve({ status: 'approved' });
-                  // copies format from vanilla verify
-                  else resolve({ status: false });
+                  resolve({
+                    rows: [
+                      {
+                        sid: 'fakesid',
+                        phone: '1234',
+                      },
+                    ],
+                  });
                 });
               },
             },
-          }),
+            done() {
+              return null;
+            },
+          });
+        });
+      };
+      this.client = {
+        verify: {
+          services(sid) {
+            return {
+              verificationChecks: {
+                create({ code }) {
+                  return new Promise((resolve, reject) => {
+                    if (code === '123456') resolve({ status: 'approved' });
+                    else resolve({ status: 'rejected' });
+                  });
+                },
+              },
+            };
+          },
         },
       };
       this.verify = postgresVerify;

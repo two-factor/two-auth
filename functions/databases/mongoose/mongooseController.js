@@ -5,6 +5,8 @@ const mongooseController = {
   // returns a reference to that object
   // if rejected, throws error from verify API
   mongooseCreate(userID, phone) {
+    // Get clear on what 'this' is
+    // Could possibly be relative to Twilio API
     // TwoAuthUser is the model for the MongoDB/Mongoose database
     const { client, TwoAuthUser, appName } = this;
     // promise is returned from this function being invoked
@@ -15,7 +17,6 @@ const mongooseController = {
         reject(new Error('typeof phone must be string'));
       }
 
-      // regex check for valid phone input
       if (!phone.match(/^\+?[1-9]\d{1,14}$/g)) reject(new Error('phone number invalid'));
 
       // this logic could be relative to the Twilio API
@@ -97,7 +98,7 @@ const mongooseController = {
           // we should consider adding a .catch for error handling
         })
         // this .catch applies to the .findOne Promise
-        .catch(err => reject(new Error('Error in verification process.')));
+        .catch(err => reject(err));
     });
   },
   // send takes in a userID

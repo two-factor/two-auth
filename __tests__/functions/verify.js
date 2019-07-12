@@ -3,6 +3,8 @@ const { verify } = require('../../functions/noDbController');
 
 // On client check verify
 
+// On client check verify
+
 describe('testing the verify method', () => {
   class FakeClient {
     // default param of correctInput to be used to check if the verification code was correct, but there was a failure in the verification process

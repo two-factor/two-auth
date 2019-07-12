@@ -1,3 +1,5 @@
+// this test might need to connect to test DB for actual testing.
+// if so, need actual PG methods, not mock ones
 /*
 MOCK DB INFO
 * const client = require("../index")(process.env.SID, * process.env.AUTH, {

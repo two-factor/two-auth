@@ -185,7 +185,7 @@ const postgresController = {
                   ),
                 );
               }
-              // this could be some Twilio API shit
+
               // this functionality sends a texts to the phone registered at users[username]
               // this one refences 'this', which is different than the other files
               // this one also returns the resolved value

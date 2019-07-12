@@ -25,7 +25,6 @@ const noDbController = {
       //   //if improperly formatted, we throw an error
       //   reject(new Error('phone must be string formatted as such: +1XXXXXXXXXX'));
 
-      // old phone error checks
       // if (phone.substring(2).match(/[^0-9]/g))
       //   reject(new Error('phone number must include only numbers'));
 
@@ -34,6 +33,11 @@ const noDbController = {
 
       if (!phone.match(/^\+?[1-9]\d{1,14}$/g)) reject(new Error('phone number invalid'));
 
+
+      // we should consider verifying the proper length of the 'phone' number
+      // we should also consider verifyint that each 'phone' number is all numbers
+
+      // this logic could be relative to the Twilio API
       client.verify.services
         .create({ friendlyName: `${appName}` })
         // returns a promise
@@ -54,7 +58,6 @@ const noDbController = {
         .catch(err => reject(new Error(String(err))));
     });
   },
-
   // takes in a userID and code - (6 digit code from the SMS text)
   // checks whether that code is valid for that userID
   // returns a promise
@@ -102,7 +105,7 @@ const noDbController = {
           // unsure if return is needed
           return resolve(false);
         })
-        .catch(err => reject(new Error('Error in verification process')));
+        .catch(err => reject(new Error('error in verification process')));
       // no .catch in place for error handling
       // we should consider implementing this
     });
