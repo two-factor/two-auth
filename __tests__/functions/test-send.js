@@ -16,7 +16,7 @@ describe("send unit tests", () => {
     users: {
       test: {
         sid,
-        phone
+        phone,
       },
       testNoSid: {
         phone,
@@ -30,10 +30,10 @@ describe("send unit tests", () => {
     // mock Twilio functionality
     client: {
       verify: {
-        //we should consider passing 'services' the SID as an argument
+        // we should consider passing 'services' the SID as an argument
         services: () => ({
           verifications: {
-            create: obj => {
+            create: (obj) => {
               mockVerificationCreate();
               return new Promise((resolve, reject) => {
                 //checks if isError is true
@@ -42,11 +42,11 @@ describe("send unit tests", () => {
                 //else, resolved is invoked
                 resolve(obj);
               });
-            }
-          }
-        })
-      }
-    }
+            },
+          },
+        }),
+      },
+    },
   };
 
   // before each test, clear all information mockVerificationCreate
@@ -82,7 +82,7 @@ describe("send unit tests", () => {
   // only checks if sid prop is on user object and if the SID value itself exists
   it("send should throw error upon nonexistent sid", async () => {
     try {
-      await client.send("testNoSid");
+      await client.send('testNoSid');
     } catch (err) {
       expect(err).toBeInstanceOf(Error);
     }

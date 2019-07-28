@@ -25,16 +25,16 @@ describe("tests the create function", () => {
               return new Promise((resolve, reject) => {
                 //if isError is 'true', reject function is invoked
                 if (isError) {
-                  reject(new Error("fake error message"));
+                  reject(new Error('fake error message'));
                 }
                 //if isError is 'false', resolve funtion is invoked with an object that has 1x property of 'sid' and a value of 'fakeSid'
                 resolve({
-                  sid: "fakeSid"
+                  sid: 'fakeSid',
                 });
               });
-            }
-          }
-        }
+            },
+          },
+        },
       };
       this.create = create;
     }
@@ -67,33 +67,32 @@ describe("tests the create function", () => {
     const fakeClient = new FakeClient(true);
 
     // users is not utilized
-    return fakeClient.create("ian", "+17604307620").catch(err => {
+    return fakeClient.create('ian', '+17604307620').catch((err) => {
       expect(err instanceof Error).toBeTruthy();
     });
   });
 
   it('throws error if phone number is not a string', () => {
     const fakeClient = new FakeClient(false);
-    let users = fakeClient.users;
-    return fakeClient.create("dillon", '+19795718947').catch(err => {
+    const { users } = fakeClient;
+    return fakeClient.create('dillon', '+19795718947').catch((err) => {
       expect(err instanceof Error).toBeFalsy();
-    })
+    });
   });
 
   // need to fix if conditional in create.js so that it is formated in US phone number format
   it('phone number should be formatted correctly', () => {
     const fakeClient = new FakeClient(false);
-    let users = FakeClient.users;
-    return fakeClient.create("dillon", '+19795718947').catch(err => {
+    const { users } = FakeClient;
+    return fakeClient.create('dillon', '+19795718947').catch((err) => {
       expect(err instanceof Error).toBeFalsy();
-    })
+    });
   });
   it('phone number should be the correct length', () => {
     const fakeClient = new FakeClient(false);
-    let users = FakeClient.users;
-    return fakeClient.create("dillon", '+19795718947').catch(err => {
+    const { users } = FakeClient;
+    return fakeClient.create('dillon', '+19795718947').catch((err) => {
       expect(err instanceof Error).toBeFalsy();
-    })
+    });
   });
 });
-

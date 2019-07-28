@@ -22,26 +22,26 @@ describe("tests the pg send function", () => {
                   callback(null, {
                     rows: [
                       {
-                        sid: "fakesid",
-                        phone: "1234"
-                      }
-                    ]
+                        sid: 'fakesid',
+                        phone: '1234',
+                      },
+                    ],
                   });
                 } else {
                   callback(null, {
                     rows: [
                       {
                         sid: null,
-                        phone: "1234"
-                      }
-                    ]
+                        phone: '1234',
+                      },
+                    ],
                   });
                 }
-              }
+              },
             },
             done: function () {
               return null;
-            }
+            },
           });
         });
       };
@@ -52,13 +52,13 @@ describe("tests the pg send function", () => {
               verifications: {
                 create: function ({ to, phone }) {
                   return new Promise((resolve, reject) => {
-                    resolve("fakeverification");
+                    resolve('fakeverification');
                   });
-                }
-              }
+                },
+              },
             };
-          }
-        }
+          },
+        },
       };
       this.send = postgresSend;
     }
@@ -79,6 +79,6 @@ describe("tests the pg send function", () => {
   xit("successfully resolves a verification from twilio", async () => {
     const client = new FakeClient();
     const result = await client.send();
-    expect(result).toBe("fakeverification");
+    expect(result).toBe('fakeverification');
   });
 });
